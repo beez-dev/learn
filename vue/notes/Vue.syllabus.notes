@@ -1,0 +1,8 @@
+Basics:
+ - core syntax, templates, directives, data, methods, computed properties, watchers
+
+Intermediate
+ - Components, component communication, behind the scenes, forms, http, routing, animations
+
+Advanced:
+ Vuex, authentication, deployment and optimizations, composition api, reusing code

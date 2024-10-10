@@ -1,0 +1,10 @@
+core web vitals
+- LCP(Largest Content Paint)
+    -
+    
+- CLS(Cumulative Layout Shift)
+    - Time taken to load Largest image (contentful paint) in the first page
+    - CLS error (While scrolling content replaced by another content)
+
+- FID(First Input Delay)
+    - Time taken for page load

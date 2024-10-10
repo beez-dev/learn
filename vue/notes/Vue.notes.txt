@@ -1,0 +1,87 @@
+Vue can be used in different ways:
+- Control parts of a page
+- Control entire frontend web application (SPA application approach)
+- Component based UI framework
+- Every vue app can be only connected to one html element
+- One vue app can control one child element but, it automatically controls
+  all child elements as well
+
+- Configuration options for Vue app
+  #NOTE:
+    - computed and data properties will have name clash
+    - watchers and data properties don't have name clash
+ - data() {
+    // data properties
+   }
+ - methods: () {
+     // method properties
+     // used mostly for events
+     // re-evaluated when anything on the page is re-evaluated
+     // #Summary
+        // use with event binding OR data binding
+        // Data binding: method is executed for every re-render cycle
+        
+   }
+ - computed: () {
+     // computed properties are like methods with one important difference
+     // vue will be aware of the dependencies and only re-execute if one 
+     // of the dependencies change
+     // define methods and vue calls it differently
+     // computes data properties
+     fullname () {
+      console.log('Running again...');
+      if(this.name === '') {
+        return ''; 
+      }
+     }
+     // #Summary
+        // use with data binding
+        
+  }
+  - watch : () {
+    // e.g. can be useful in http requests
+    // watch wants an object that defines a bunch of methods
+    // that has the name in a data or computed property as a name
+    // for the method, won't clash with anything in above
+    // whenever the name changes, the watcher method will re-execute
+       name(value) { // watcher method
+       // the latest value is automatically passed 
+      }
+    }
+
+
+- Directives:
+    - Extra instruction in html code
+    - Use such directives on html element
+    - All built in directives that ship with vue start with 'v-'
+    
+    -Vocab:
+        - v-for      e.g.  <li v-for="goal in goals">{{ goal }}</li>
+        - v-on:click e.g. <button v-on:click="addGoal">Add Goal</button>
+        - v-on:click.right  - on right click
+        - v-on:input e.g. <button v-on:input="addGoal">Add Goal</button>
+        - v-on:input e.g. <button v-on:input="addGoal(234)">Add Goal</button> -- overrides the default 'event' variable passed
+        - v-on:input e.g. <button v-on:input="addGoal($event, 234)">Add Goal</button> -- special variable to prevent event pass override
+        - v-on:keyup e.g. <... v-on:keyup.page-down ...>
+        - v-on:keyup.page-down
+        - v-on:keyup.enter
+        - v-on:submit e.g. <form v-on:submit="submitForm"></form>
+        - #event modifier
+        - v-on:submit.prevent - ~preventDefault
+        - v-on:stop    
+        - v-model    e.g. <input type="text" id="goal" v-model="enteredValue"/> -- shortcut for v-bind:value and v-on:input
+        - v-bind     e.g. <img v-bind:src="imageUrl"/>
+        - v-bind     e.g. <input v-bind:value="name"/> -- send the stored value back into the input
+        - v-once     e.g. <p v-once>{{ vueVariable }} </p> 
+
+
+
+
+- Vue binding: 
+    - Use the v-bind directive
+    - E.g. <a v-bind:href="">...</a> tells vue 'Please bind the value of the href attribute to something'
+
+    - v-html: Set the content between the opening and closing tags of an element
+
+-- <script src="https://unpkg.com/vue@next" defer></script> // doesn't work
+-- <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js"></script> 
