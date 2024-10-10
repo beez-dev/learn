@@ -1,10 +1,52 @@
-core web vitals
-- LCP(Largest Content Paint)
-    -
-    
-- CLS(Cumulative Layout Shift)
-    - Time taken to load Largest image (contentful paint) in the first page
-    - CLS error (While scrolling content replaced by another content)
+- Toolset: 
+    - Google lighthouse
+    - Page speed insight (https://pagespeed.web.dev/)
 
-- FID(First Input Delay)
-    - Time taken for page load
+
+# Note: for testing app should be deployed
+
+Core web vitals
+    - LCP(Largest Content Paint)*
+        - LCP measures when the largest content element (e.g. image/text block) in the
+        viewport is rendered to the screen.
+        This approximates when the main content of the page is
+        visible to users
+
+    - FID(First Input Delay)*
+        - Time taken for first page load to when the page becomes responsive
+
+    - INP (Interaction to Next Page)*
+        - Measures FID for all lifecycle of the page
+
+    - CLS(Cumulative Layout Shift)*
+        - Measures unexpected layout shifts that occur in the lifecycle of the page
+        - Time taken to load Largest image (contentful paint) in the first page
+        - CLS error (While scrolling content replaced by another content)
+        - This is important as layout shifts may deviate or designate incorrect behaviour to user interaction
+        - To simulate different platform effects, the network can be throttled
+
+    - SI (Speed Index)
+        - 
+
+    - TTI (Time to interactive)
+
+    - TTFB (Time to first byte):
+        - Time between the request for a resource and when the first byte of a response
+            begins to arrive.
+        - This may also affect a LCP
+
+    - Total Blocking Time(TBT):
+        - When you have a very heavy javascript file, that is not deferred or 
+            does not load async, this is going to block the main thread
+
+
+
+
+- Fundamentals to note:
+    - Check if users are mostly desktop or mobile users
+
+- Tricks for images:
+    - HTML <picture> element contains one or more source
+        elements each referring to different images through
+        the srcset attribute
+
