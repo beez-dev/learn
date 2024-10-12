@@ -5,23 +5,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home - Tech Shop</title>
-        <link href="https://fonts.googleapis.com/css?family=Heebo:300,400,600,700&display=swap" rel="stylesheet">
+        <title> Home - Tech Shop </title>
+        <!-- <link href="https://fonts.googleapis.com/css?family=Heebo:300,400,600,700&display=swap" rel="stylesheet"> -->
         <link rel="stylesheet" href="/css/styles.css">
         <!-- <link rel="stylesheet" type="text/css" href="/css/slick.css"/> -->
         <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-PKK35GL5');
-        </script>
+        </script> -->
         <!-- End Google Tag Manager -->
 
         <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-        <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
-        <script type="text/javascript" charset="UTF-8">
-            cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Performance Course"});
+        <script defer type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+        <script defer type="text/javascript" charset="UTF-8">
+            // cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Performance Course"});
+            document.addEventListener('DOMContentLoaded', function() {
+                cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"en","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Performance Course"});
+            })
         </script>
               
     </head>
@@ -29,8 +32,13 @@
     <body>
 
         <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PKK35GL5"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PKK35GL5"
+                height="0" width="0" style="display:none;visibility:hidden">
+            </iframe>
+        </noscript>
+        <meta name="description" content="Discover our wide range of tech products including VR headsets, phones, tablets, and more. Shop now for the best deals and latest technology."/>
+
         <!-- End Google Tag Manager (noscript) -->
         
         <header>
@@ -48,7 +56,7 @@
                         <li><a href="about.html">About us</a></li>
                         <li><a href="index.html#best-sellers-section">Best Sellers</a></li>
                         <li><a href="index.html#newsletter-section">Newsletter</a></li>
-                        <li class="menu-icon"><img src="images/menu_icon.png" ></li>
+                        <li class="menu-icon"><img src="images/menu_icon.png" alt="menu-icon" ></li>
                     </ul>
                 </nav>
             </div>
@@ -65,10 +73,10 @@
                 alt="Hero Image"/> -->
 
             <picture>
-                <source media="(max-width:576px)" srcset="images/Hero_Mobile.webp">
-                <source media="(max-width:960px)" srcset="images/Hero_Tablet.webp">
-                <img src="images/Hero_Desktop.webp" alt="Flowers" style="width:auto;">
-                </picture> 
+                <source width="576" height="576" media="(max-width:576px)" srcset="images/Hero_Mobile.webp">
+                <source width="960" height="960" media="(max-width:960px)" srcset="images/Hero_Tablet.webp">
+                <img width="1920" height="1080" src="images/Hero_Desktop.webp" alt="Flowers"/>
+            </picture> 
 
             <div class="hero-content">
                 <div class="container">
@@ -93,43 +101,43 @@
 
                     <div class="product new">
                         <div class="product-picture">
-                            <img src="images/vr1.webp" alt="product: Penom Case">
+                            <img width="155" height="155" src="images/vr1.webp" alt="product: Penom Case">
                         </div>
                         <div class="product-info">
-                            <h5 class="categories">Headsets, Apple</h5>
-                            <h4 class="title">Apple Headset</h4>
-                            <h3 class="price">
+                            <p class="categories">Headsets, Apple</p>
+                            <p class="title">Apple Headset</p>
+                            <p class="price">
                                 <span>US$ 450.00</span>
-                            </h3>
+                            </p>
                             <button>Add to bag</button>
                         </div>
                     </div>
 
                     <div class="product new">
                         <div class="product-picture">
-                            <img src="images/vr2.webp" alt="product: Noise Cancelling Headphone">
+                            <img width="155" height="155" src="images/vr2.webp" alt="product: Noise Cancelling Headphone">
                         </div>
                         <div class="product-info">
-                            <h5 class="categories">Headsets, PS</h5>
-                            <h4 class="title">Playstation Headset</h4>
-                            <h3 class="price">
+                            <p class="categories">Headsets, PS</p>
+                            <p class="title">Playstation Headset</p>
+                            <p class="price">
                                 <span>US$ 399.99</span>
-                            </h3>
+                            </p>
                             <button>Add to bag</button>
                         </div>
                     </div>
 
                     <div class="product">
                         <div class="product-picture">
-                            <img src="images/vr3.webp" alt="product: Canon Digital SLR EOS Rebel T6">
+                            <img width="155" height="155" src="images/vr3.webp" alt="product: Canon Digital SLR EOS Rebel T6">
                         </div>
                         <div class="product-info">
-                            <h5 class="categories">Headsets, Oculus</h5>
-                            <h4 class="title">Oculus Headset</h4>
-                            <h3 class="price">
+                            <p class="categories">Headsets, Oculus</p>
+                            <p class="title">Oculus Headset</p>
+                            <p class="price">
                                 <span class="discounted-price">US$ 349.99</span>
                                 <span class="original-price">US$ 419.99</span>
-                            </h3>
+                            </p>
                             <button>Add to bag</button>
                         </div>
                     </div>
@@ -208,7 +216,7 @@
  
 
         <script type="text/javascript" src="/js/main.js"></script>
-        <script type="text/javascript" src="/js/products.js"></script>
+        <script async type="text/javascript" src="/js/products.js"></script>
 
     </body>
 

@@ -24,6 +24,16 @@ Core web vitals
         - CLS error (While scrolling content replaced by another content)
         - This is important as layout shifts may deviate or designate incorrect behaviour to user interaction
         - To simulate different platform effects, the network can be throttled
+        - Occurs if:
+            - E.g. If image doesn't have explicit width/height set
+              This can be done for e.g.
+                <picture>
+                    <source width="576" height="576" media="(max-width: 576px)" srcset="..."/>
+                    <source width="960" height="770" media="(max-width: 960px)" srcset="..."/>
+                    <img width="1920" height="893" src="images/Hero_Desktop.jpg"/>
+                </picture>
+        - Tips:
+            - Prevent CLS by changing opacity instead of 'display:none'
 
     - SI (Speed Index)
         - 
@@ -39,14 +49,35 @@ Core web vitals
         - When you have a very heavy javascript file, that is not deferred or 
             does not load async, this is going to block the main thread
 
-
-
-
 - Fundamentals to note:
     - Check if users are mostly desktop or mobile users
+    - In the long term, it is always better to self host your own forms
+    - Meta descriptions are necessary
+    - Look for images that stretch when device resolution changes
 
 - Tricks for images:
     - HTML <picture> element contains one or more source
         elements each referring to different images through
         the srcset attribute
+    - Image loading can be optimized by lazy loading
+
+Tips:
+    - Web performance roadmap:
+        - Enforce best practises:
+            - Maintain knowledgebase
+                - E.g. confluence, google docs, checklist
+
+        - Monitor performance:
+            - Historical data and reports
+            - Alerts
+            - Platforms for monitoring and reports:
+                - Google search console (more focused on SEO), able to run reports and notify when performance issue occurs
+                - GTMetrix (gtmetrix.com)
+                - Page speed insights (https://pagespeed.web.dev)
+                    
+        
+        - Allocate resources:
+            - Involving whole team on performance conversations
+            - Code reviews + QA
+            - Continuous improvement
 

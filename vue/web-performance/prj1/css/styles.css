@@ -1,4 +1,35 @@
 
+@font-face {
+    font-family: 'Heebo';
+    src: url('fonts/Heebo-Regular.ttf') format('truetype');
+    font-display: swap;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Heebo';
+    src: url('fonts/Heebo-Light.ttf') format('truetype');
+    font-display: swap;
+    font-weight: 300;
+    font-style: light;
+}
+
+@font-face {
+    font-family: 'Heebo';
+    src: url('fonts/Heebo-Medium.ttf') format('truetype');
+    font-display: swap;
+    font-weight: 600;
+    font-style: medium;
+}
+
+@font-face {
+    font-family: 'Heebo';
+    src: url('fonts/Heebo-Medium.ttf') format('truetype');
+    font-display: swap;
+    font-weight: 700;
+    font-style: bold;
+}
 
 
 body {
@@ -149,7 +180,7 @@ section.hero img {
     max-width: 100%;
     border-radius: 92px;
     background-color: #33c6dd;
-    color: #FFF;
+    color: #000;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.4px;
@@ -230,6 +261,7 @@ section.best-sellers .product-slider .product {
 
 section.best-sellers .product-slider .product img {
     max-width: 40%;
+    height: auto;
 }
 
 section.best-sellers .product-slider .product .product-picture {
@@ -260,6 +292,7 @@ section.best-sellers .product-slider .product.new::before {
 section.best-sellers .product-slider .product .product-info {
     margin-top: 50px;
 }
+
 
 section.best-sellers .product-slider .product .product-info .categories {
     color: #33c6dd;
@@ -659,6 +692,7 @@ footer .copyright-text {
     
     section.best-sellers .product-slider .product .product-info .categories {
         margin-bottom: 7px;
+        color: #614dc9;
     }
     
     section.best-sellers .product-slider .product .product-info .title {
@@ -677,6 +711,7 @@ footer .copyright-text {
         font-size: 11px;
         letter-spacing: 0.28px;
         line-height: 20px;
+        color: #575757;
     }
     
     section.best-sellers .product-slider .product .product-info button {
