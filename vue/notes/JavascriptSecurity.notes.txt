@@ -1,0 +1,210 @@
+- web browser security
+    - Authentication
+    - XSS
+    - CSRF
+    - Browser protections (CORS, clickjacking)
+
+- Language-related security topics
+    - Prototype pollution
+    - Malicious regular expressions
+
+- Javascript serverless functions
+
+
+- Strict mode
+    - Enforces better code predictability
+    -    ```
+        'use strict';
+
+        const x = {};
+        Object.defineProperty(x, 'foo', {
+            value: 10,
+            writable: false
+        })
+
+        console.log(x.foo);
+        x.foo = 11; // only using strict mode , this errors out, else console logs silently print 10
+        console.log(x.foo)
+        ```
+    - Strict mode can be used locally inside the function
+    - ES6 modules all by default are in strict mode, non-changeable
+
+- Variables:
+    - This works: (var implicitly defines variables on the top)
+        ```
+        x = 10;
+        console.log(x);
+        var x;
+        ```;
+    - with `let` variables need to be defined before initialization
+        ``` // This fails
+        x = 10;
+        console.log(x);
+        let x;
+        ```;
+
+- Function:
+    - implicitly defined at the top ( similar to var)
+    - Ways to define a function:
+        (1) By function keyword:
+            - function <name>(){ ... }
+
+        (2) By arrow function:
+            - const arrowFunc = () => { ... }
+
+        (3) By function constructor:
+            !Warning, dangerous! Vulnerable to string injections
+            - const newFunc = new Function('a', 'b', 'return a+b')
+              console.log(newFunc.toString());
+              
+- Types:
+    - Objects are actually typed in js, even though variables are not typed
+    - console.log(typeof {}); // object
+    - console.log(typeof 1);  // number
+    - console.log(typeof ''); // string
+    - console.log(typeof 10); // number
+    - console.log(typeof null); // object
+    - console.log(typeof undefined);  // undefined
+
+- Web browser:
+    - Made up of 2 main engine
+        - Engine that renders html page
+        - Js Engine (e.g. v8 in chrome)
+            - Has bindings ( objects and functions by environment)
+        - JS Engine has bindings to objects in the browser
+            - E.g. Access to paragraph with getElementById
+        - Other apis are available (e.g. to access webcam, gpu, usb ports)
+        - Also has api such as push messaging that help send data from the server
+        - Two tabs in the web browser are actually isolated
+        - Has tools for e.g. memory, cpu profiling
+        - If application has a manifest, it can be held as a web application 
+            that would be equivalent to a mobile application
+        - Has workers that help run task in a different process
+        - Extensions
+            - Usually written in js and have access to certain authorization
+
+
+- Nodejs:
+    - Built on chrome v8 js engine
+    - Gives access to other apis, e.g. the filesystem
+    - Bindings can be created from other languages ( e.g. c++ ) to nodejs
+
+
+Authentication:
+    - Act of knowing who the client is
+        - Client can be human, device  or web browser
+
+    - Login:
+        - Process to identify client based on one or
+            multiple secrets and traits
+        - Once login happens, a session can be created
+            - Login method includes
+                - Shared secret (not good)
+                - username/password (hashed pwd)
+                - OTP (has RFC, third party use recommended)
+                - Third party login
+
+            - Session authentication:
+                - Happens when client is identified through reusable means
+                - Session identifies a client that is already logged in
+                  without explicitly asking for credentials
+                - Session technologies:
+                    - Cookies (HttpOnly, please!, not make available to js code)
+                    - JSON web token (or JWT)
+                    - Random token (can be signed)
+                - Few best practises
+                    - Only over https
+                    - Expire sessions
+                    - Invalidate sessions
+                - Logout
+                    - Act of closing a session
+                    - Everyone forgets about logout
+                    - The session must be invalidated
+                - Authorization:
+                    - Privilege of accessing a resource
+                    - Role, privilege etc
+                - Content-based access:
+                    - In GDPR based world, content of a resource is very sensitive
+                    - Ensure PII(personally identifiable information may be permissible to access)
+
+    - Some fundamentals of cryptography
+        - Hashing
+        - Symmetric cryptography ( AES{by default is a block algorithm, use operation mode to turn to a stream algorithm} )
+        - Asymmetric cryptography (private key, public key)
+
+    - Cookies:
+        - Authentication
+        - Tracking and privacy
+        - Expressjs:
+            - res.setHeader('Set-Cookie', ['server_name'])
+                - set by the server
+                - browser stores the cookie set
+                - on each consecutive request, sets the cookie in the header
+                - Retrieve cookie in the browser using document.cookie
+            - Multiple values:
+                - res.setHeader('Set-Cookie', ['server_name=server1', 'other=me'])
+            - Set expiration:
+                - res.setHeader('Set-Cookie', ['server_name=server1', 'other=me; Max-Age=21 October 2021'])
+                - res.setHeader('Set-Cookie', ['server_name=server1', 'other=me; Max-Age=2021-05-25'])
+                - An expiration duration may also be set instead
+            - Location:
+                - Available on the exact same domain and on all path
+                - Can be decided to set to the whole world, subdomains or
+                  the exact same domain
+            - Security:
+                - E.g. By cross site scripting, someone should not be able to 
+                  leak the cookie (e.g. make a request to another site with the cookie in it)
+                  To limit this , we can use the HttpOnly primitive
+                  - res.setHeader('Set-Cookie', ['http=only; HttpOnly'])
+                  - This will not be available from javascript code, so the browser may not access it
+                    yet, it will be sent in the header
+                  - Secure:
+                    - Every cookie must actually be set as secure
+                    - res.setHeader('Set-Cookie', ['server_name=server1;Secure; HttpOnly'])
+                    - Same site:
+                        - res.setHeader('Set-Cookie', ['server_name=server1;Secure; HttpOnly; SameSite=Strict'])
+                            - Only for the same domain, must not be shared with someone else
+                        - res.setHeader('Set-Cookie', ['server_name=server1;Secure; HttpOnly; SameSite=Lax'])
+                            - For the subdomain of the domain but not outside
+                        - res.setHeader('Set-Cookie', ['server_name=server1;Secure; HttpOnly; SameSite=None'])
+                            - No same site policy at all (dangerous)
+        - Update cookie:
+            - From browser:
+                - append cookie:
+                    - document.cookie='a=b'; doesn't overrides, adds to existing cookie values
+                - delete a cookie(or render it empty):
+                    - document.cookie='a='
+
+        - Zombie cookie:
+            - Hack to enable developers to force cookie from FE, which is called a zombie cookie:
+                - Set item e.g. periodically from local storage
+
+        - Cookies must adhere to legislation, e.g. GDPR for EU
+
+
+        Front end practises:
+            - E.g. password fields should be detectable by password managers
+              - Form should have an action
+              - Input fields are typed e.g. <input type="password".../> [pwd managers suggest strong pwds]
+              - Credentials such as user token are better to save in a session storage
+                instead of local storage
+              - Tokens must be saved only in an HTTP only to prevent XSS attacks
+              - When logging out, the backend(server) must also be informed to 
+                invalidate the token instead of just removing the token from the
+                front end only
+              - Better to save creds/token in a cookie and use it, as requests are automatically
+                added with cookies, but, when using local storage, they have to be manually
+                read and added to requests instead
+              - For safety of your website, you should use only:
+                Domain scoped, same site expiring HTTP only cookies
+              - Can cookies be JWT?:
+                - JWT are actually for use of the server, not the frontend, 
+                  in this case, it should rather be a JSON Web Signature or
+                  a JSON Web Signed Payload which will actually contain
+                  things that are signed (determining integrity), but these
+                  usually don't hold data for authentication
+              - For good UX even parts of the website should be authenticated
+                e.g. '/admin' page in the FE, may immediately call '/api/admin'
+                on the server, if there is no FE authentication, then the 
+                server will be spammed with backend requests.
+                    Cookies are good for FE authentication
