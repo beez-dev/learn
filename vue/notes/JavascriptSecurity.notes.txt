@@ -207,4 +207,81 @@ Authentication:
                 e.g. '/admin' page in the FE, may immediately call '/api/admin'
                 on the server, if there is no FE authentication, then the 
                 server will be spammed with backend requests.
-                    Cookies are good for FE authentication
+                - Cookies are good for FE authentication
+
+
+XSS/XSS attacks:
+    NOTE: doesn't happen only on FE, XSS also occurs in BE
+    - Happens when a malicious attacker messages to run arbitrary
+      JS code in given browser through a webpage.
+        - When attacker runs code, they can impersonate the user
+          on this web application.
+        - If someone has XSS attack in your back website, they can
+          perform any operation allowed by the website on your behalf
+    - Kinds of XSS:
+        - Reflected XSS:
+            - XSS payload is present in an HTTP request to which a 
+              response is issued, containing the exploited webpage
+         ***- User is tricked to click on a certain link, will send
+              XSS payload to the backend,
+              responds with the rendered page
+              that will contain the XSS payload on an executable part 
+              of the page
+            - They are not persistent
+
+            - Some ways in which it's done:
+                - 1. E.g. localhost:3000/?name=Johnny
+                    - Hacker tries to see http://localhost:3000?name=Johnny can get in sync 
+                      with something like this: 
+                      http://localhost:3000?name=<b>hello</b>, If this gets through, 
+                      it would mean maybe xss could be implemented
+                      - Next step would be something like this: 
+                        - encodeURIComponent("<script>alert('xss code')</script>") -> %3Cscript%3Ealert('Hello')%3C%2Fscript%3E
+                          http://localhost:3000?name=%3Cscript%3Ealert('xss code')%3C%2Fscript%3E
+                        - user is provoked to clicking this, some camoflauge may be used
+                          E.g. using URL shortner
+                        - If the website for e.g. already has a cookie, then being able to run this
+                          would mean being able to retrieve sensitive data from the cookie
+
+                - 2. E.g. Vulnerable forms(e.g. without validation) may let to execute xss attacks
+                      - Prevent this by:
+                        - Escaping html code
+                        - Use templating engines, or ssr to escape the values
+        - Stored XSS
+            - Permanent in nature
+         ***- XSS payload is injected into the storage of the webserver
+              (e.g.) in a database and sent in the HTTP responses. When
+              message is read, the payload is executed.
+            
+            - E.g.
+                - 1. In a form, where no validation is there, following values are entered
+                      name: <script>alert('some name')</script>
+                      age: 23
+                    - This gets stored in the database, when there is an endpoint which fetches
+                      data, and renders the script, the script gets executed
+                - 2. name: <script>alert(document.cookie)</script>
+                     - This can be used to obtain cookie, as this might be stored in BE
+                       and parsed as a script
+                - Blind XSS (Special case):
+                    - Usually in the above cases, the attacker knows where the payload is rendered
+                    and the attack is targeted for that page
+                        But, when the attacker doesn't know this, he puts as much as payload
+                        everywhere possible, which is called Blind Xss attack
+            - Ways of preventionn:
+                - Render using a template engine
+                - Use form validation
+                - Prevent writing weird user input in database directly
+
+        - DOM-based XSS:
+            - Happens when the XSS payload is made executable through a DOM change
+            - If REST api returns the XSS payload, it is not directly executable.
+              It will need a DOM operation, vulnerability lies in the frontend code
+            - These may or maynot be permanent.
+
+        - Self XSS:
+            - NOTE: The browser doesn't execute <script> tags that are added with 
+                    inner HTML
+            - The victim is tricked into running the XSS payload themselves.
+            - Happens through mind-tricks and social engineerings.
+              E.g. Someone tells the user to copy/paste code to console to 
+                   gain incentives

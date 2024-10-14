@@ -1,0 +1,14 @@
+- Common tips and information
+    - Logs are printed twice in strict mode
+    - Debugger can be connected directly from vs code
+    - Nextjs projects have a special launch.json file for enabling debugging
+
+    - Use suspense code
+        - Mimics the components as if it's in a loading state
+        - E.g. <Suspense fallback="Loading"/>
+
+    - Use Error boundaries
+    
+    - Checkout the component tab's setting that has multiple
+      options and configurations to make things easier
+      and has many tools such as profilers
