@@ -1,0 +1,46 @@
+- GraphQL:
+    - Query language for apis
+    - Like SQL, but for apis rather than databases
+    - Why not REST?
+        - Client has full control over which data to fetch from
+          the server
+        - With REST, if you need two different resources, you need
+          to make two separate calls to the server, GraphQL lets you
+          get many resources in a single request
+    - Schema first approach, gives clear contract between a server
+      and a client
+    - Easy Versionless apis
+    - Open specification
+
+    - Apollo sandbox:
+      - In the graphQL (apollo server) sandbox, the query keyword in the request
+        corresponds to the query operation in the schema.
+
+        There is an internal mapping like this:
+        ```
+        const typeDefs = `#graphql
+        schema {
+          query: Query
+        }
+        `
+        which maps the query operation to the Query type
+        this determines what fields are available
+        ```
+      - Has schema polling enabled
+        - It keeps re-requesting schema from the server to make
+          sure it uses the latest version, this can be useful while
+          developing the server. The sandbox has schema-polling enabled
+
+      - All graphql requests are sent via HTTP post by default
+        and the request body contains json data 
+      - Sample fetch request:
+        fetch('http://localhost:9000/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: 'query { greeting }'
+          })
+        })
+    
