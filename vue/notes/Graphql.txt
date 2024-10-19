@@ -12,7 +12,7 @@
     - Easy Versionless apis
     - Open specification
 
-    - Apollo sandbox:
+   - Apollo sandbox:
       - In the graphQL (apollo server) sandbox, the query keyword in the request
         corresponds to the query operation in the schema.
 
@@ -20,8 +20,8 @@
         ```
         const typeDefs = `#graphql
         schema {
-          query: Query
-        }
+            query: Query
+          }
         `
         which maps the query operation to the Query type
         this determines what fields are available
@@ -43,4 +43,66 @@
             query: 'query { greeting }'
           })
         })
-    
+
+  - Code first vs. Schema first ( 2 ways for graphQL):
+    - SDL - Schema Definition Language
+    - GraphQL Nexus
+      - Code first framework available for javascript and typescript
+    - TypeGraphQL
+      - Another Code first library from TS
+
+- Marking a non-nullable field:
+  - type Job {
+      id: ID!   # errors out if null
+      title: String
+      description: String
+    }
+
+- Marking an array of a certain type
+  - type Query {
+      jobs: [Job]
+    }
+
+  In this case selection query applies to all the elements:
+  E.g.
+   query ExampleQuery {
+    jobs: {
+      id, description
+    }
+   }
+     , where each item provides the selected fields
+
+
+- Resolver function with custom column name
+ - type Query {
+    jobs: [Job]    
+  }
+
+  type Job {
+      id: ID!
+      date: String!
+      title: String!
+      description: String
+  }
+
+  export const resolvers = {
+    Query: { 
+        jobs: async () => getJobs()
+    },
+
+    Job: {
+        date: (job) => {
+            return job.createdAt.slice(0,'yyyy-mm-dd'.length);
+        }
+    }
+  }
+
+
+- Documentation comment (in schemas)
+  type Job {
+      id: ID!
+      """ Very important date """
+      date: String!
+      title: String!
+      description: String
+  }
